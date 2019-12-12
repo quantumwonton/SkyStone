@@ -64,6 +64,9 @@ public class TeleOpMode extends LinearOpMode {
 
             tgtPowerL = this.gamepad1.left_stick_y;
             tgtPowerR = this.gamepad1.left_stick_y;
+            if (gamepad1.x) {
+                speed = 1;
+            }
             if (gamepad1.y) {
                 speed = 2;
             }

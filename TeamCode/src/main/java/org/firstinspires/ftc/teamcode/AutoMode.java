@@ -24,16 +24,20 @@ public class AutoMode extends LinearOpMode {
     Orientation angles;
     static double speed = 0.25;
     static double turn_speed = 0.2;
-    static double coff = 0.1;
+    static double coff = 0.05;
     static double new_speed;
     int automode =0;
 
     String [] my_modes = {
-        "Auto Left1",
-        "Auto Left2",
-        "Auto Right1",
-        "Auto Right2",
-        "Auto Blue Block Right"
+        "Left1",
+        "Left2",
+        "Right1",
+        "Right2",
+        "Blue Block Right2",
+        "Blue Block Left",
+        "Red Block Right",
+        "Red Block Left1"
+
     };
     @Override
     public void runOpMode() {
@@ -73,60 +77,109 @@ public class AutoMode extends LinearOpMode {
         waitForStart();
         switch (automode) {
             case 0:
-                //autoleft1
+                //left1
                 IMUmove(0, 1, speed);
                 IMURturn(-90);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
-                IMUmove(-90, 2, speed);
+                IMUmove(-90, 1.8, speed);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
                 break;
             case 1:
-                //autoleft2
+                //left2
                 IMUmove(0, 3, speed);
                 IMURturn(-90);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
-                IMUmove(-90, 2, speed);
+                IMUmove(-90, 1.8, speed);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
                 break;
             case 2:
-                //autoright1
+                //right1
                 IMUmove(0, 1, speed);
                 IMULturn(90);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
-                IMUmove(90, 2, speed);
+                IMUmove(90, 1.7, speed);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
                 break;
             case 3:
-                //autoright2
-                IMUmove(0, 3, speed);
+                //right2
+                IMUmove(0, 2.8, speed);
                 IMULturn(90);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
-                IMUmove(90, 2, speed);
+                IMUmove(90, 1.7, speed);
                 telemetry.addData("Heading", angles.firstAngle);
                 telemetry.update();
                 break;
             case 4:
-                //autoblueblockright
+                //blueblockright2
                 IMUmove(0, 3, -speed);
                 servoBackup.setPosition(90);
                 sleep(1500);
                 IMUmove(0,1.5, speed);
+                IMURturn(-90);
+                IMUmove(-90,5, speed);
                 IMULturn(90);
-                IMUmove(90,5, -speed);
                 servoBackup.setPosition(0);
                 sleep(1000);
-                IMUmove(90,1,speed);
+                IMUmove(90, 2.5, speed);
+                break;
+            case 5:
+                //blueblockleft
+                IMUmove(0, 2, -speed);
+                IMURturn(-90);
+                IMUmove(-90, 4, -speed);
+                IMULturn(0);
+                IMUmove(0, 2, -speed);
+                servoBackup.setPosition(90);
+                sleep(1500);
+                IMUmove(0, 3, speed);
+                IMURturn(-90);
+                IMUmove(-90, 5, speed);
+                IMULturn(90);
+                servoBackup.setPosition(0);
+                IMUmove(90, 1.8, speed);
+                break;
+            case 6:
+                //redblockright
+                IMUmove(0, 2, -speed);
+                IMULturn(90);
+                IMUmove(90, 4.8, -speed);
+                IMURturn(0);
+                IMUmove(0, 2, -speed);
+                servoBackup.setPosition(90);
+                sleep(1500);
+                IMUmove(0, 3, speed);
+                IMULturn(90);
+                IMUmove(90, 5, speed);
+                IMURturn(-90);
+                servoBackup.setPosition(0);
+                IMUmove(-90, 2.5, speed);
+                break;
+                case 7:
+                //redblockleft1
+                IMUmove(0, 3, -speed);
+                servoBackup.setPosition(90);
+                sleep(1500);
+                IMUmove(0, 2.8, speed);
+                IMULturn(90);
+                IMUmove(90, 5, speed);
+                IMURturn(-90);
+                servoBackup.setPosition(0);
+                IMUmove(-90, 2, speed);
                 break;
         }
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            //Libraries
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
     public void IMUmove(double holdAngle, double time, double speed) {
         motorLeft = hardwareMap.get(DcMotor.class,"motorLeft");
         motorRight = hardwareMap.get(DcMotor.class,"motorRight");
@@ -141,6 +194,8 @@ public class AutoMode extends LinearOpMode {
         }
         motorLeft.setPower(0);
         motorRight.setPower(0);
+        telemetry.addData("Heading", angles.firstAngle);
+        telemetry.update();
     }
     public void IMULturn(int turnAngle) {
         motorLeft = hardwareMap.get(DcMotor.class, "motorLeft");
@@ -152,6 +207,8 @@ public class AutoMode extends LinearOpMode {
         }
         motorLeft.setPower(0);
         motorRight.setPower(0);
+        telemetry.addData("Heading", angles.firstAngle);
+        telemetry.update();
     }
     public void IMURturn(int turnAngle) {
      motorLeft = hardwareMap.get(DcMotor.class, "motorLeft");
@@ -163,6 +220,8 @@ public class AutoMode extends LinearOpMode {
         }
         motorLeft.setPower(0);
         motorRight.setPower(0);
+        telemetry.addData("Heading", angles.firstAngle);
+        telemetry.update();
     }
 
     public void IMUinit() {
